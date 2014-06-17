@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Update() {
-		if (Input.GetMouseButtonDown (0)) {
+		if (Input.GetMouseButtonDown (0) && GUIUtility.hotControl == 0) {
 			RaycastHit hit;
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			if (goTerrain.collider.Raycast (ray, out hit, Mathf.Infinity)) {
