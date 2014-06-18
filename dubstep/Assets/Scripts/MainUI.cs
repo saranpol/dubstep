@@ -3,6 +3,21 @@ using System.Collections;
 
 public class MainUI : MonoBehaviour {
 
+	public GameObject gameControllerObject;
+	private GameController gameController;
+
+	void Start () {
+		gameControllerObject = GameObject.FindWithTag ("GameController");
+		if (gameControllerObject != null)
+		{
+			gameController = gameControllerObject.GetComponent <GameController>();
+		}
+		if (gameController == null)
+		{
+			Debug.Log ("Cannot find 'GameController' script");
+		}
+	}
+
 	void OnGUI () {
 		int w = Screen.width;
 		int h = Screen.height;
@@ -13,10 +28,12 @@ public class MainUI : MonoBehaviour {
 		int x = 0;
 
 		if(GUI.Button(new Rect(x,y,bw,bh), "X")) {
+			gameController.GenUnit1();
 		}
 		x += bw;
 
 		if(GUI.Button(new Rect(x,y,bw,bh), "A")) {
+
 		}
 		x += bw;
 		if(GUI.Button(new Rect(x,y,bw,bh), "B")) {
