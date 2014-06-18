@@ -3,19 +3,20 @@ using System.Collections;
 
 public class MainUI : MonoBehaviour {
 
-	public GameObject gameControllerObject;
-	private GameController gameController;
+	public GUITexture button0;
+    public GUITexture button1;
+    public GUIText testText;
+    public PlayerController playerController;
+
+    private GameController gc;
+
 
 	void Start () {
-		gameControllerObject = GameObject.FindWithTag ("GameController");
-		if (gameControllerObject != null)
-		{
-			gameController = gameControllerObject.GetComponent <GameController>();
-		}
-		if (gameController == null)
-		{
+		GameObject g = GameObject.FindWithTag ("GameController");
+		if (g != null)
+			gc = g.GetComponent <GameController>();
+		if (gc == null)
 			Debug.Log ("Cannot find 'GameController' script");
-		}
 	}
 
 	void OnGUI () {
@@ -28,7 +29,7 @@ public class MainUI : MonoBehaviour {
 		int x = 0;
 
 		if(GUI.Button(new Rect(x,y,bw,bh), "X")) {
-			gameController.GenUnit1();
+			gc.GenUnit1();
 		}
 		x += bw;
 
@@ -53,5 +54,58 @@ public class MainUI : MonoBehaviour {
 		}
 	
 	}
+
+
+
+    bool check_button0(Vector2 pos){
+        if(button0.HitTest(pos)){
+            testText.text = "button0";
+            return true;
+        }
+        return false;
+    }
+
+    bool check_button1(Vector2 pos){
+        if(button1.HitTest(pos)){
+            testText.text = "button1";
+            return true;
+        }
+        return false;
+    }
+    
+    void checkInput() {
+        if(GUIUtility.hotControl != 0)
+            return;
+
+        // Tab
+        int tapCount = Input.touchCount;
+        for (int i=0; i<tapCount; i++) {
+            Touch touch = Input.GetTouch(i);
+            if(touch.phase == TouchPhase.Began){
+                if(check_button0(touch.position))
+                    continue;
+                if(check_button1(touch.position))
+                    continue;
+                playerController.setTargetPosition(touch.position);
+            }
+        }
+        if (tapCount > 0)
+            return;
+
+        
+        // Mouse
+        if (Input.GetMouseButtonDown(0)) {
+            bool hit = false;
+            hit |= check_button0(Input.mousePosition);
+            hit |= check_button1(Input.mousePosition);
+            
+            if(!hit)
+                playerController.setTargetPosition(Input.mousePosition);
+        }
+    }
+
+    void Update() {
+        checkInput ();
+    }
 
 }
