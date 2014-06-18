@@ -7,14 +7,34 @@ public class MainUI : MonoBehaviour {
 		int w = Screen.width;
 		int h = Screen.height;
 
+		int bw = Mathf.RoundToInt(1.0f / 7.0f * w);
+		int bh = Mathf.RoundToInt(1.0f / 6.0f * h);
+		int y = h - bh;
+		int x = 0;
 
+		if(GUI.Button(new Rect(x,y,bw,bh), "X")) {
+		}
+		x += bw;
 
-		if(GUI.Button(new Rect(20,40,80,20), "Level 1")) {
-			//Application.LoadLevel(1);
+		if(GUI.Button(new Rect(x,y,bw,bh), "A")) {
 		}
-		
-		if(GUI.Button(new Rect(20,70,80,20), "Level 2")) {
-			//Application.LoadLevel(2);
+		x += bw;
+		if(GUI.Button(new Rect(x,y,bw,bh), "B")) {
 		}
+		x += bw;
+		if(GUI.Button(new Rect(x,y,bw,bh), "C")) {
+		}
+		x += bw;
+		if(GUI.Button(new Rect(x,y,bw,bh), "D")) {
+		}
+		x += bw;
+		if(GUI.Button(new Rect(x,y,bw,bh), "E")) {
+		}
+		x += bw;
+
+		if(GUI.Button(new Rect(x,y,w-x,bh), "E")) {
+		}
+	
 	}
+
 }
