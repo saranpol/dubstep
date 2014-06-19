@@ -5,11 +5,18 @@ public class MainUI : MonoBehaviour {
 
 	public GUITexture button0;
     public GUITexture button1;
-    public GUIText testText;
+	public GUITexture button2;
+	public GUITexture button3;
+	public GUITexture button4;
+	public GUITexture button5;
+	public GUITexture button6;
+
+
+	public GUIText testText;
     public PlayerController playerController;
 
     private GameController gc;
-
+	private int bh;
 
 	void Start () {
 		GameObject g = GameObject.FindWithTag ("GameController");
@@ -19,59 +26,30 @@ public class MainUI : MonoBehaviour {
 			Debug.Log ("Cannot find 'GameController' script");
 	}
 
+
+	void updateButtonTexture(GUITexture t){
+		t.pixelInset = new Rect(t.transform.position.x, t.transform.position.y, bh, bh);
+	}
+
 	void OnGUI () {
-		int w = Screen.width;
+		//int w = Screen.width;
 		int h = Screen.height;
 
-		int bw = Mathf.RoundToInt(1.0f / 7.0f * w);
-		int bh = Mathf.RoundToInt(1.0f / 6.0f * h);
-		int y = h - bh;
-		int x = 0;
+		//int bw = Mathf.RoundToInt(1.0f / 7.0f * w);
+		bh = Mathf.RoundToInt(1.0f / 6.0f * h);
 
-		if(GUI.Button(new Rect(x,y,bw,bh), "X")) {
-			gc.GenUnit1();
-		}
-		x += bw;
-
-		if(GUI.Button(new Rect(x,y,bw,bh), "A")) {
-
-		}
-		x += bw;
-		if(GUI.Button(new Rect(x,y,bw,bh), "B")) {
-		}
-		x += bw;
-		if(GUI.Button(new Rect(x,y,bw,bh), "C")) {
-		}
-		x += bw;
-		if(GUI.Button(new Rect(x,y,bw,bh), "D")) {
-		}
-		x += bw;
-		if(GUI.Button(new Rect(x,y,bw,bh), "E")) {
-		}
-		x += bw;
-
-		if(GUI.Button(new Rect(x,y,w-x,bh), "E")) {
-		}
-	
+		updateButtonTexture (button0);
+		updateButtonTexture (button1);
+		updateButtonTexture (button2);
+		updateButtonTexture (button3);
+		updateButtonTexture (button4);
+		updateButtonTexture (button5);
+		updateButtonTexture (button6);
 	}
 
 
 
-    bool check_button0(Vector2 pos){
-        if(button0.HitTest(pos)){
-            testText.text = "button0";
-            return true;
-        }
-        return false;
-    }
 
-    bool check_button1(Vector2 pos){
-        if(button1.HitTest(pos)){
-            testText.text = "button1";
-            return true;
-        }
-        return false;
-    }
     
     void checkInput() {
         if(GUIUtility.hotControl != 0)
@@ -82,11 +60,16 @@ public class MainUI : MonoBehaviour {
         for (int i=0; i<tapCount; i++) {
             Touch touch = Input.GetTouch(i);
             if(touch.phase == TouchPhase.Began){
-                if(check_button0(touch.position))
-                    continue;
-                if(check_button1(touch.position))
-                    continue;
-                playerController.setTargetPosition(touch.position);
+                if(check_button0(touch.position)) continue;
+                if(check_button1(touch.position)) continue;
+				if(check_button2(touch.position)) continue;
+				if(check_button3(touch.position)) continue;
+				if(check_button4(touch.position)) continue;
+				if(check_button5(touch.position)) continue;
+				if(check_button6(touch.position)) continue;
+
+				if(touch.position.y > bh)
+                	playerController.setTargetPosition(touch.position);
             }
         }
         if (tapCount > 0)
@@ -98,14 +81,85 @@ public class MainUI : MonoBehaviour {
             bool hit = false;
             hit |= check_button0(Input.mousePosition);
             hit |= check_button1(Input.mousePosition);
-            
-            if(!hit)
-                playerController.setTargetPosition(Input.mousePosition);
+			hit |= check_button2(Input.mousePosition);
+			hit |= check_button3(Input.mousePosition);
+			hit |= check_button4(Input.mousePosition);
+			hit |= check_button5(Input.mousePosition);
+			hit |= check_button6(Input.mousePosition);
+
+			if(!hit && Input.mousePosition.y > bh)
+            	playerController.setTargetPosition(Input.mousePosition);
         }
     }
 
     void Update() {
         checkInput ();
     }
+
+
+
+
+
+
+
+
+	bool check_button0(Vector2 pos){
+		if(button0.HitTest(pos)){
+			testText.text = "button0";
+			return true;
+		}
+		return false;
+	}
+	
+	bool check_button1(Vector2 pos){
+		if(button1.HitTest(pos)){
+			testText.text = "button1";
+			gc.GenUnit1();
+			return true;
+		}
+		return false;
+	}
+
+	bool check_button2(Vector2 pos){
+		if(button2.HitTest(pos)){
+			testText.text = "button2";
+			return true;
+		}
+		return false;
+	}
+	
+	bool check_button3(Vector2 pos){
+		if(button3.HitTest(pos)){
+			testText.text = "button3";
+			return true;
+		}
+		return false;
+	}
+
+	bool check_button4(Vector2 pos){
+		if(button4.HitTest(pos)){
+			testText.text = "button4";
+			return true;
+		}
+		return false;
+	}
+	
+	bool check_button5(Vector2 pos){
+		if(button5.HitTest(pos)){
+			testText.text = "button5";
+			return true;
+		}
+		return false;
+	}
+
+	bool check_button6(Vector2 pos){
+		if(button6.HitTest(pos)){
+			testText.text = "button6";
+			return true;
+		}
+		return false;
+	}
+	
+
 
 }
