@@ -68,7 +68,7 @@ public class MainUI : MonoBehaviour {
 				if(check_button5(touch.position)) continue;
 				if(check_button6(touch.position)) continue;
 
-				if(touch.position.y > bh)
+				if(touch.position.y > bh && (tapCount == 1))
                 	playerController.setTargetPosition(touch.position);
             }
         }
