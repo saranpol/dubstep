@@ -6,8 +6,10 @@ public class CameraController : MonoBehaviour {
 	public GameObject player;
 	private Vector3 offset;
 	private Vector3 targetOffset;
+	private float zoomSpeed;
 	
 	void Start () {
+		zoomSpeed = 10.0f;
 		offset = transform.position;
 		targetOffset = offset;
 	}
@@ -16,15 +18,15 @@ public class CameraController : MonoBehaviour {
 		transform.position = player.transform.position + offset;
 	}
 
-	void zoomOut() {
-		Vector3 v = targetOffset * 1.1f;
+	void zoomOut(float d) {
+		Vector3 v = targetOffset * (1.0f+d);
 		if (v.x > 44.3)
 			return;
 		targetOffset = v;
 	}
 
-	void zoomIn() {
-		Vector3 v = targetOffset * 0.9f;
+	void zoomIn(float d) {
+		Vector3 v = targetOffset * (1.0f-d);
 		if (v.x < 3.2)
 			return;
 		targetOffset = v;
@@ -32,7 +34,7 @@ public class CameraController : MonoBehaviour {
 
 	void updateOffset() {
 		if(offset != targetOffset)
-			offset = Vector3.Lerp (offset, targetOffset, 10 * Time.deltaTime); 
+			offset = Vector3.Lerp (offset, targetOffset, zoomSpeed * Time.deltaTime); 
 
 	}
 
@@ -42,7 +44,8 @@ public class CameraController : MonoBehaviour {
 
 		if (Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Moved && Input.GetTouch(1).phase == TouchPhase.Moved) 
 		{
-			
+			zoomSpeed = 100.0f;
+
 			Vector2 curDist = Input.GetTouch(0).position - Input.GetTouch(1).position; //current distance between finger touches
 			Vector2 prevDist = ((Input.GetTouch(0).position - Input.GetTouch(0).deltaPosition) - (Input.GetTouch(1).position - Input.GetTouch(1).deltaPosition)); //difference in previous locations using delta positions
 			float touchDelta = curDist.magnitude - prevDist.magnitude;
@@ -54,13 +57,13 @@ public class CameraController : MonoBehaviour {
 			//float cam_speed = 1;
 			if ((touchDelta + varianceInDistances <= 1) && (speedTouch0 > minPinchSpeed) && (speedTouch1 > minPinchSpeed))
 			{
-				zoomOut();
+				zoomOut(-touchDelta/Screen.width*2.0f);
 				//camera.fieldOfView = Mathf.Clamp(camera.fieldOfView + (1 * cam_speed),15,90);
 			}
 			
 			if ((touchDelta + varianceInDistances > 1) && (speedTouch0 > minPinchSpeed) && (speedTouch1 > minPinchSpeed))
 			{
-				zoomIn();
+				zoomIn(touchDelta/Screen.width*2.0f);
 				//camera.fieldOfView = Mathf.Clamp(camera.fieldOfView - (1 * cam_speed),15,90);
 			}
 			
@@ -69,12 +72,12 @@ public class CameraController : MonoBehaviour {
 
 		if (Input.GetAxis("Mouse ScrollWheel") < 0) // back
 		{
-			zoomOut();
+			zoomOut(0.1f);
 			
 		}
 		if (Input.GetAxis("Mouse ScrollWheel") > 0) // forward
 		{
-			zoomIn();
+			zoomIn(0.1f);
 		}
 	}
 }
