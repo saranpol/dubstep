@@ -23,11 +23,13 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-    void Update() {
+    void LateUpdate() {
         // Move Player
         if (targetPosition != transform.position) {
             //transform.position = Vector3.Lerp (transform.position, targetPosition, speed * Time.deltaTime); 
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+            Vector3 v = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+			v.y = transform.position.y;
+			transform.position = v;
         }
         
     }
