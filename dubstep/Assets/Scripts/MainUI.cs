@@ -47,15 +47,17 @@ public class MainUI : MonoBehaviour {
 
         // Tab
         int tapCount = Input.touchCount;
+
         for (int i=0; i<tapCount; i++) {
             Touch touch = Input.GetTouch(i);
             if(touch.phase == TouchPhase.Began){
-                if(check_button0(touch.position)) continue;
-				if(check_button1(touch.position)) continue;
+				bool hit = false;
+                hit |= check_button0(touch.position);
+				hit |= check_button1(touch.position);
 
 				//if(touch.position.y > bh && (tapCount == 1))
-				if(tapCount == 1)
-                	playerController.setTargetPosition(touch.position);
+				if(!hit)
+					playerController.setTargetPosition(touch.position);
             }
         }
         if (tapCount > 0)
@@ -88,7 +90,7 @@ public class MainUI : MonoBehaviour {
 	bool check_button0(Vector2 pos){
 		if(button0.HitTest(pos)){
 			testText.text = "button0";
-			gc.GenUnit1();
+			gc.GenUnit2();
 			return true;
 		}
 		return false;
@@ -97,7 +99,7 @@ public class MainUI : MonoBehaviour {
 	bool check_button1(Vector2 pos){
 		if(button1.HitTest(pos)){
 			testText.text = "button1";
-			gc.GenUnit2();
+			gc.GenUnit1();
 			return true;
 		}
 		return false;
