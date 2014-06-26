@@ -54,11 +54,17 @@ public class MainUI : MonoBehaviour {
 				bool hit = false;
                 hit |= check_button0(touch.position);
 				hit |= check_button1(touch.position);
-
-				//if(touch.position.y > bh && (tapCount == 1))
 				if(!hit)
 					playerController.setTargetPosition(touch.position);
             }
+
+			if(touch.phase == TouchPhase.Moved){
+				bool hit = false;
+				hit |= button0.HitTest(touch.position);
+				hit |= button1.HitTest(touch.position);
+				if(!hit)
+					playerController.setTargetPosition(touch.position);
+			}
         }
         if (tapCount > 0)
             return;
@@ -69,11 +75,21 @@ public class MainUI : MonoBehaviour {
             bool hit = false;
             hit |= check_button0(Input.mousePosition);
 			hit |= check_button1(Input.mousePosition);
-
-			//if(!hit && Input.mousePosition.y > bh)
 			if(!hit)
             	playerController.setTargetPosition(Input.mousePosition);
         }
+
+		if (Input.GetMouseButton(0)) {
+			bool hit = false;
+			hit |= button0.HitTest(Input.mousePosition);
+			hit |= button1.HitTest(Input.mousePosition);
+			if(!hit)
+				playerController.setTargetPosition(Input.mousePosition);
+		}
+
+		if (Input.GetKeyDown("a")) {
+			gc.GenUnit2();
+		}
     }
 
     void Update() {
