@@ -86,10 +86,6 @@ public class MainUI : MonoBehaviour {
 			if(!hit)
 				playerController.setTargetPosition(Input.mousePosition);
 		}
-
-		if (Input.GetKeyDown("a")) {
-			gc.GenUnit2();
-		}
     }
 
     void Update() {
@@ -106,7 +102,6 @@ public class MainUI : MonoBehaviour {
 	bool check_button0(Vector2 pos){
 		if(button0.HitTest(pos)){
 			testText.text = "button0";
-			gc.GenUnit2();
 			return true;
 		}
 		return false;
@@ -115,7 +110,6 @@ public class MainUI : MonoBehaviour {
 	bool check_button1(Vector2 pos){
 		if(button1.HitTest(pos)){
 			testText.text = "button1";
-			gc.GenUnit1();
 			return true;
 		}
 		return false;

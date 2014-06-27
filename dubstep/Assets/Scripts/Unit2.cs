@@ -39,6 +39,10 @@ public class Unit2 : MonoBehaviour {
 			Instantiate (explosion, transform.position, transform.rotation);
 			Destroy (gameObject);
 		}
+		if (isEnemy && collision.gameObject.CompareTag ("Player")) {
+			Instantiate (explosion, transform.position, transform.rotation);
+			Destroy (gameObject);
+		}
 	}
 
 }

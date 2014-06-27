@@ -4,43 +4,51 @@ using System.Collections;
 public class CameraController : MonoBehaviour {
 
 	public GameObject player;
+	public float panSpeed;
+	public float panMinX;
+	public float panMaxX;
 	private Vector3 offset;
-	private Vector3 targetOffset;
+	private Vector3 targetZoomOffset;
+	private Vector3 panOffset;
 	private float zoomSpeed;
 	
 	void Start () {
 		zoomSpeed = 10.0f;
 		offset = transform.position;
-		targetOffset = offset;
+		targetZoomOffset = offset;
+		panOffset = Vector3.zero;
 	}
 	
 	void LateUpdate () {
-		transform.position = player.transform.position + offset;
+		//transform.position = player.transform.position + offset;
+		transform.position = panOffset + offset;
 	}
 
 	void zoomOut(float d) {
-		Vector3 v = targetOffset * (1.0f+d);
-		if (v.x > 44.3)
+		Vector3 v = targetZoomOffset * (1.0f+d);
+		if (v.y > 62.74426)
 			return;
-		targetOffset = v;
+		targetZoomOffset = v;
 	}
 
 	void zoomIn(float d) {
-		Vector3 v = targetOffset * (1.0f-d);
-		if (v.x < 3.2)
+		Vector3 v = targetZoomOffset * (1.0f-d);
+		if (v.y < 4.785985)
 			return;
-		targetOffset = v;
+		targetZoomOffset = v;
 	}
 
 	void updateOffset() {
-		if(offset != targetOffset)
-			offset = Vector3.Lerp (offset, targetOffset, zoomSpeed * Time.deltaTime); 
+		if(offset != targetZoomOffset)
+			offset = Vector3.Lerp (offset, targetZoomOffset, zoomSpeed * Time.deltaTime); 
 
 	}
 
 	void Update() {
 
 		updateOffset ();
+
+		// Zoom Touch
 
 		if (Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Moved && Input.GetTouch(1).phase == TouchPhase.Moved) 
 		{
@@ -69,6 +77,7 @@ public class CameraController : MonoBehaviour {
 			
 		}
 
+		// Zoom Mouse
 
 		if (Input.GetAxis("Mouse ScrollWheel") < 0) // back
 		{
@@ -79,5 +88,70 @@ public class CameraController : MonoBehaviour {
 		{
 			zoomIn(0.1f);
 		}
+
+		// Pan Touch
+		if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Moved)
+		{
+			Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
+			float f = Mathf.Cos(Mathf.PI/4.0f) * transform.position.y/650.0f;
+			float new_x = panOffset.x + (-touchDeltaPosition.x)*f + (touchDeltaPosition.y)*f;
+			float new_z = panOffset.z + (-touchDeltaPosition.x)*f + (-touchDeltaPosition.y)*f;
+			if(new_x >= panMaxX)
+				new_x = panMaxX;
+			if(new_z >= panMaxX)
+				new_z = panMaxX;
+			if(new_x <= panMinX)
+				new_x = panMinX;
+			if(new_z <= panMinX)
+				new_z = panMinX;
+			panOffset.x = new_x;
+			panOffset.z = new_z;
+
+		}
+
+
+		// Pan Mouse
+		if(SystemInfo.deviceType == DeviceType.Desktop){
+			if (Input.mousePosition.x <= 0) {
+				float d = Time.deltaTime*panSpeed;
+				float new_x = panOffset.x - d;
+				float new_z = panOffset.z - d;
+				if(new_x >= panMinX)
+					panOffset.x = new_x;
+				if(new_z >= panMinX)
+					panOffset.z = new_z;
+
+			}
+			if (Input.mousePosition.x >= Screen.width) {
+				float d = Time.deltaTime*panSpeed;
+				float new_x = panOffset.x + d;
+				float new_z = panOffset.z + d;
+				if(new_x <= panMaxX)
+					panOffset.x = new_x;
+				if(new_z <= panMaxX)
+					panOffset.z = new_z;
+			}
+			if (Input.mousePosition.y <= 0) {
+				float d = Time.deltaTime*panSpeed;
+				float new_x = panOffset.x + d;
+				float new_z = panOffset.z - d;
+				if(new_x <= panMaxX)
+					panOffset.x = new_x;
+				if(new_z >= panMinX)	
+					panOffset.z = new_z;
+			}
+			if (Input.mousePosition.y >= Screen.height) {
+				float d = Time.deltaTime*panSpeed;
+				float new_x = panOffset.x - d;
+				float new_z = panOffset.z + d;
+				if(new_x >= panMinX)
+					panOffset.x = new_x;
+				if(new_z <= panMaxX)
+					panOffset.z = new_z;
+			}
+		}
+
+
+
 	}
 }

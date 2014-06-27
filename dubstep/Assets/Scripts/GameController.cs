@@ -19,8 +19,8 @@ public class GameController : MonoBehaviour {
 	//public GUIText restartText;
 	//public GUIText gameOverText;
 	
-	private bool gameOver;
-	private bool restart;
+	//private bool gameOver;
+	//private bool restart;
 	//private int score;
 	
 
@@ -30,8 +30,8 @@ public class GameController : MonoBehaviour {
 		Application.targetFrameRate = 60;
 
 	
-		gameOver = false;
-		restart = false;
+		//gameOver = false;
+		//restart = false;
 		
 		//restartText.text = "";
 		//gameOverText.text = "";
@@ -74,11 +74,11 @@ public class GameController : MonoBehaviour {
 	
 	
 	void Update () {
-		if (restart) {
-			if (Input.GetKeyDown (KeyCode.R)) {
-				Application.LoadLevel (Application.loadedLevel);
-			}
-		}
+//		if (restart) {
+//			if (Input.GetKeyDown (KeyCode.R)) {
+//				Application.LoadLevel (Application.loadedLevel);
+//			}
+//		}
 	}
 	
 	
@@ -86,12 +86,24 @@ public class GameController : MonoBehaviour {
 		yield return new WaitForSeconds (startWait);
 		while (true) {
 			for (int i=0; i<hazardCount; i++) {
-				Vector3 spawnPosition = new Vector3 (Random.Range (-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
-				Quaternion spawnRotation = Quaternion.identity;
-				GameObject o = Instantiate (unit2, spawnPosition, spawnRotation) as GameObject;
-				Unit2 u = o.GetComponent <Unit2>();
-				u.isEnemy = true;
-				u.SetupUnit();
+				{
+					Vector3 spawnPosition = new Vector3 (Random.Range (-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
+					Quaternion spawnRotation = Quaternion.identity;
+					GameObject o = Instantiate (unit2, spawnPosition, spawnRotation) as GameObject;
+					Unit2 u = o.GetComponent <Unit2>();
+					u.isEnemy = true;
+					u.SetupUnit();
+				}
+
+				{
+					Vector3 spawnPosition = new Vector3 (Random.Range (-spawnValues.x, spawnValues.x), spawnValues.y, -spawnValues.z);
+					Quaternion spawnRotation = Quaternion.identity;
+					GameObject o = Instantiate (unit2, spawnPosition, spawnRotation) as GameObject;
+					Unit2 u = o.GetComponent <Unit2>();
+					u.isEnemy = false;
+					u.SetupUnit();
+				}
+
 				yield return new WaitForSeconds (spawnWait);
 			}
 			
