@@ -30,19 +30,25 @@ public class Unit2 : MonoBehaviour {
 		rigidbody.AddForce (movement*speed*Time.deltaTime);
 	}
 
+	public void killObject() {
+		Instantiate (explosion, transform.position, transform.rotation);
+		Destroy (gameObject);
+	}
+
 	void OnCollisionEnter(Collision collision) {
 		if (collision.gameObject.CompareTag ("Wall Enemy")) {
-			Instantiate (explosion, transform.position, transform.rotation);
-			Destroy (gameObject);
+			killObject();
 		}
 		if (collision.gameObject.CompareTag ("Wall Player")) {
-			Instantiate (explosion, transform.position, transform.rotation);
-			Destroy (gameObject);
+			killObject();
 		}
-		if (isEnemy && collision.gameObject.CompareTag ("Player")) {
-			Instantiate (explosion, transform.position, transform.rotation);
-			Destroy (gameObject);
+
+		if (collision.gameObject.CompareTag ("Ground")) {
+			if(Mathf.Abs(collision.relativeVelocity.y) > 10.0){
+				killObject();
+			}
 		}
+
 	}
 
 }

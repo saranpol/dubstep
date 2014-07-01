@@ -118,4 +118,27 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
+
+	// Bomb
+
+	public GameObject explosion;
+
+	
+	public float radius;
+	public float power;
+	public void ApplyBomb(Vector3 explosionPos) {
+		Instantiate (explosion, explosionPos, Quaternion.identity);
+		Collider[] colliders = Physics.OverlapSphere(explosionPos, radius);
+		foreach (Collider hit in colliders) {
+			GameObject o = hit.gameObject;
+			if(o.CompareTag("Unit2")){
+				Unit2 u = o.GetComponent <Unit2>();
+				u.killObject();
+			}
+//			if (hit && hit.rigidbody)
+//				hit.rigidbody.AddExplosionForce(power, explosionPos, radius, 3.0F);
+			
+		}
+	}
+
 }

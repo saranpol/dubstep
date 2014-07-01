@@ -26,7 +26,7 @@ public class CameraController : MonoBehaviour {
 
 	void zoomOut(float d) {
 		Vector3 v = targetZoomOffset * (1.0f+d);
-		if (v.y > 62.74426)
+		if (v.y > 114.0)
 			return;
 		targetZoomOffset = v;
 	}
@@ -92,10 +92,24 @@ public class CameraController : MonoBehaviour {
 		// Pan Touch
 		if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Moved)
 		{
+//			Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
+//			float f = Mathf.Cos(Mathf.PI/4.0f) * transform.position.y/650.0f;
+//			float new_x = panOffset.x + (-touchDeltaPosition.x)*f + (touchDeltaPosition.y)*f;
+//			float new_z = panOffset.z + (-touchDeltaPosition.x)*f + (-touchDeltaPosition.y)*f;
+//			if(new_x >= panMaxX)
+//				new_x = panMaxX;
+//			if(new_z >= panMaxX)
+//				new_z = panMaxX;
+//			if(new_x <= panMinX)
+//				new_x = panMinX;
+//			if(new_z <= panMinX)
+//				new_z = panMinX;
+//			panOffset.x = new_x;
+//			panOffset.z = new_z;
 			Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
-			float f = Mathf.Cos(Mathf.PI/4.0f) * transform.position.y/650.0f;
-			float new_x = panOffset.x + (-touchDeltaPosition.x)*f + (touchDeltaPosition.y)*f;
-			float new_z = panOffset.z + (-touchDeltaPosition.x)*f + (-touchDeltaPosition.y)*f;
+			float f = transform.position.y/650.0f;
+			float new_x = panOffset.x + (touchDeltaPosition.y)*f;
+			float new_z = panOffset.z + (-touchDeltaPosition.x)*f;
 			if(new_x >= panMaxX)
 				new_x = panMaxX;
 			if(new_z >= panMaxX)
@@ -112,42 +126,70 @@ public class CameraController : MonoBehaviour {
 
 		// Pan Mouse
 		if(SystemInfo.deviceType == DeviceType.Desktop){
+//			if (Input.mousePosition.x <= 0) {
+//				float d = Time.deltaTime*panSpeed;
+//				float new_x = panOffset.x - d;
+//				float new_z = panOffset.z - d;
+//				if(new_x >= panMinX)
+//					panOffset.x = new_x;
+//				if(new_z >= panMinX)
+//					panOffset.z = new_z;
+//
+//			}
+//			if (Input.mousePosition.x >= Screen.width) {
+//				float d = Time.deltaTime*panSpeed;
+//				float new_x = panOffset.x + d;
+//				float new_z = panOffset.z + d;
+//				if(new_x <= panMaxX)
+//					panOffset.x = new_x;
+//				if(new_z <= panMaxX)
+//					panOffset.z = new_z;
+//			}
+//			if (Input.mousePosition.y <= 0) {
+//				float d = Time.deltaTime*panSpeed;
+//				float new_x = panOffset.x + d;
+//				float new_z = panOffset.z - d;
+//				if(new_x <= panMaxX)
+//					panOffset.x = new_x;
+//				if(new_z >= panMinX)	
+//					panOffset.z = new_z;
+//			}
+//			if (Input.mousePosition.y >= Screen.height) {
+//				float d = Time.deltaTime*panSpeed;
+//				float new_x = panOffset.x - d;
+//				float new_z = panOffset.z + d;
+//				if(new_x >= panMinX)
+//					panOffset.x = new_x;
+//				if(new_z <= panMaxX)
+//					panOffset.z = new_z;
+//			}
+
+			float f = transform.position.y/25.0f;
+
 			if (Input.mousePosition.x <= 0) {
-				float d = Time.deltaTime*panSpeed;
-				float new_x = panOffset.x - d;
+				float d = Time.deltaTime*panSpeed*f;
 				float new_z = panOffset.z - d;
-				if(new_x >= panMinX)
-					panOffset.x = new_x;
 				if(new_z >= panMinX)
 					panOffset.z = new_z;
 
 			}
 			if (Input.mousePosition.x >= Screen.width) {
-				float d = Time.deltaTime*panSpeed;
-				float new_x = panOffset.x + d;
+				float d = Time.deltaTime*panSpeed*f;
 				float new_z = panOffset.z + d;
-				if(new_x <= panMaxX)
-					panOffset.x = new_x;
 				if(new_z <= panMaxX)
 					panOffset.z = new_z;
 			}
 			if (Input.mousePosition.y <= 0) {
-				float d = Time.deltaTime*panSpeed;
+				float d = Time.deltaTime*panSpeed*f;
 				float new_x = panOffset.x + d;
-				float new_z = panOffset.z - d;
 				if(new_x <= panMaxX)
 					panOffset.x = new_x;
-				if(new_z >= panMinX)	
-					panOffset.z = new_z;
 			}
 			if (Input.mousePosition.y >= Screen.height) {
-				float d = Time.deltaTime*panSpeed;
+				float d = Time.deltaTime*panSpeed*f;
 				float new_x = panOffset.x - d;
-				float new_z = panOffset.z + d;
 				if(new_x >= panMinX)
 					panOffset.x = new_x;
-				if(new_z <= panMaxX)
-					panOffset.z = new_z;
 			}
 		}
 

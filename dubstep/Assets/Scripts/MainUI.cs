@@ -8,7 +8,6 @@ public class MainUI : MonoBehaviour {
 
 
 	public GUIText testText;
-    public PlayerController playerController;
 
     private GameController gc;
 	private int bh;
@@ -55,16 +54,16 @@ public class MainUI : MonoBehaviour {
                 hit |= check_button0(touch.position);
 				hit |= check_button1(touch.position);
 				if(!hit)
-					playerController.setTargetPosition(touch.position);
+					setTargetPosition(touch.position);
             }
 
-			if(touch.phase == TouchPhase.Moved){
-				bool hit = false;
-				hit |= button0.HitTest(touch.position);
-				hit |= button1.HitTest(touch.position);
-				if(!hit)
-					playerController.setTargetPosition(touch.position);
-			}
+//			if(touch.phase == TouchPhase.Moved){
+//				bool hit = false;
+//				hit |= button0.HitTest(touch.position);
+//				hit |= button1.HitTest(touch.position);
+//				if(!hit)
+//					setTargetPosition(touch.position);
+//			}
         }
         if (tapCount > 0)
             return;
@@ -76,16 +75,16 @@ public class MainUI : MonoBehaviour {
             hit |= check_button0(Input.mousePosition);
 			hit |= check_button1(Input.mousePosition);
 			if(!hit)
-            	playerController.setTargetPosition(Input.mousePosition);
+            	setTargetPosition(Input.mousePosition);
         }
 
-		if (Input.GetMouseButton(0)) {
-			bool hit = false;
-			hit |= button0.HitTest(Input.mousePosition);
-			hit |= button1.HitTest(Input.mousePosition);
-			if(!hit)
-				playerController.setTargetPosition(Input.mousePosition);
-		}
+//		if (Input.GetMouseButton(0)) {
+//			bool hit = false;
+//			hit |= button0.HitTest(Input.mousePosition);
+//			hit |= button1.HitTest(Input.mousePosition);
+//			if(!hit)
+//				setTargetPosition(Input.mousePosition);
+//		}
     }
 
     void Update() {
@@ -100,21 +99,38 @@ public class MainUI : MonoBehaviour {
 
 
 	bool check_button0(Vector2 pos){
-		if(button0.HitTest(pos)){
-			testText.text = "button0";
-			return true;
-		}
+//		if(button0.HitTest(pos)){
+//			testText.text = "button0";
+//			return true;
+//		}
 		return false;
 	}
 	
 	bool check_button1(Vector2 pos){
-		if(button1.HitTest(pos)){
-			testText.text = "button1";
-			return true;
-		}
+//		if(button1.HitTest(pos)){
+//			testText.text = "button1";
+//			return true;
+//		}
 		return false;
 	}
 	
+
+
+
+
+
+	// Bomb
+	public GameObject goTerrain;
+
+	void setTargetPosition(Vector3 pos) {
+		RaycastHit hit;
+		Ray ray = Camera.main.ScreenPointToRay(pos);
+		if (goTerrain.collider.Raycast (ray, out hit, Mathf.Infinity)) {
+			gc.ApplyBomb(hit.point);
+		}
+	}
+
+
 
 
 }
