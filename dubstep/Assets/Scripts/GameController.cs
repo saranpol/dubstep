@@ -89,8 +89,8 @@ public class GameController : MonoBehaviour {
 				{
 					Vector3 spawnPosition = new Vector3 (Random.Range (-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
 					Quaternion spawnRotation = Quaternion.identity;
-					GameObject o = Instantiate (unit2, spawnPosition, spawnRotation) as GameObject;
-					Unit2 u = o.GetComponent <Unit2>();
+					GameObject o = Instantiate (unit1, spawnPosition, spawnRotation) as GameObject;
+					Unit1 u = o.GetComponent <Unit1>();
 					u.isEnemy = true;
 					u.SetupUnit();
 				}
@@ -98,8 +98,8 @@ public class GameController : MonoBehaviour {
 				{
 					Vector3 spawnPosition = new Vector3 (Random.Range (-spawnValues.x, spawnValues.x), spawnValues.y, -spawnValues.z);
 					Quaternion spawnRotation = Quaternion.identity;
-					GameObject o = Instantiate (unit2, spawnPosition, spawnRotation) as GameObject;
-					Unit2 u = o.GetComponent <Unit2>();
+					GameObject o = Instantiate (unit1, spawnPosition, spawnRotation) as GameObject;
+					Unit1 u = o.GetComponent <Unit1>();
 					u.isEnemy = false;
 					u.SetupUnit();
 				}
@@ -131,8 +131,8 @@ public class GameController : MonoBehaviour {
 		Collider[] colliders = Physics.OverlapSphere(explosionPos, radius);
 		foreach (Collider hit in colliders) {
 			GameObject o = hit.gameObject;
-			if(o.CompareTag("Unit2")){
-				Unit2 u = o.GetComponent <Unit2>();
+			if(o.CompareTag("Unit1")){
+				Unit1 u = o.GetComponent <Unit1>();
 				u.killObject();
 			}
 //			if (hit && hit.rigidbody)
