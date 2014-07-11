@@ -4,11 +4,13 @@ using System.Collections;
 public class Unit1 : MonoBehaviour {
 
 	public float speed;
+	public float targetPositionZ;
 	public GameObject explosion;
 	public bool isEnemy;
-	public Material enemyMaterial;
+	//public Material enemyMaterial;
 	public Vector3 targetPosition;
-	public Renderer mRenderer;
+	//public Renderer mRenderer;
+	public SpriteRenderer mSprite;
 	private NavMeshAgent agent;
 
 	void Start() {
@@ -17,8 +19,11 @@ public class Unit1 : MonoBehaviour {
 
 	
 	public void SetupUnit() {
-		if (isEnemy)
-			mRenderer.material = enemyMaterial;
+		if (isEnemy){
+			//mRenderer.material = enemyMaterial;
+			FaceCamera fc = mSprite.GetComponent<FaceCamera>();
+			fc.flip = true;
+		}
 	}
 	
 	public void setTargetPosition(Vector3 pos) {
@@ -29,9 +34,9 @@ public class Unit1 : MonoBehaviour {
 		//if (targetPosition != transform.position) {
 		//	transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
 		//}
-		targetPosition = new Vector3 (0.0f, 0.0f, 0.0f);
+		//targetPosition = new Vector3 (transform.position.x, 0.0f, isEnemy ? -targetPositionZ : targetPositionZ);
+		targetPosition = new Vector3 (0.0f, 0.0f, isEnemy ? -targetPositionZ : targetPositionZ);
 		agent.SetDestination (targetPosition);
-		
 	}
 
 	
