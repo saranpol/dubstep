@@ -1,12 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Unit1.cs">
     <Files>
-      <File FileName="Assets/Scripts/Unit1.cs" Line="22" Column="16" />
-      <File FileName="Assets/Scripts/FaceCamera.cs" Line="10" Column="65" />
-      <File FileName="Assets/Scripts/GameController.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Unit1.cs" Line="70" Column="1" />
-      <File FileName="Assets/Scripts/Unit2.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Unit1.cs" Line="61" Column="24" />
+      <File FileName="../../../Dropbox (INC)/#0024 GAME/Unity/UnityTest3/Assets/Scripts/Enemy/EnemySight.cs" Line="60" Column="2" />
+      <File FileName="Assets/Scripts/GameController.cs" Line="131" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

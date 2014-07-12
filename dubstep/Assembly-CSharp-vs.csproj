@@ -51,7 +51,9 @@
      <Compile Include="Assets\Scripts\FPSScript.cs" />
      <Compile Include="Assets\Scripts\FaceCamera.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
+     <Compile Include="Assets\Scripts\HashIDs.cs" />
      <Compile Include="Assets\Scripts\MainUI.cs" />
+     <Compile Include="Assets\Scripts\Tags.cs" />
      <Compile Include="Assets\Scripts\Unit1.cs" />
      <Compile Include="Assets\Scripts\Unit2.cs" />
   </ItemGroup>

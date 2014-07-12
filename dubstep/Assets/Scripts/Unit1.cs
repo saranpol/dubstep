@@ -4,6 +4,7 @@ using System.Collections;
 public class Unit1 : MonoBehaviour {
 
 	public float speed;
+	public float range;
 	public float targetPositionZ;
 	public GameObject explosion;
 	public bool isEnemy;
@@ -12,18 +13,27 @@ public class Unit1 : MonoBehaviour {
 	//public Renderer mRenderer;
 	public SpriteRenderer mSprite;
 	private NavMeshAgent agent;
+	private Animator animator;
+	private HashIDs hash;
+	public float health = 500f;
+
+
 
 	void Start() {
 		agent = GetComponent<NavMeshAgent>();
-	}
+		animator = mSprite.GetComponent<Animator>();
+		hash = GameObject.FindGameObjectWithTag(Tags.gameController).GetComponent<HashIDs>();
 
-	
-	public void SetupUnit() {
-		if (isEnemy){
+		if (!isEnemy){
 			//mRenderer.material = enemyMaterial;
 			FaceCamera fc = mSprite.GetComponent<FaceCamera>();
 			fc.flip = true;
 		}
+	}
+
+	
+	public void SetupUnit() {
+		//
 	}
 	
 	public void setTargetPosition(Vector3 pos) {
@@ -37,6 +47,28 @@ public class Unit1 : MonoBehaviour {
 		//targetPosition = new Vector3 (transform.position.x, 0.0f, isEnemy ? -targetPositionZ : targetPositionZ);
 		targetPosition = new Vector3 (0.0f, 0.0f, isEnemy ? -targetPositionZ : targetPositionZ);
 		agent.SetDestination (targetPosition);
+
+		bool foundEnemy = false;
+		Collider[] colliders = Physics.OverlapSphere(transform.position, range);
+		foreach (Collider hit in colliders) {
+			GameObject o = hit.gameObject;
+			if(o.CompareTag("Unit1")){
+				Unit1 u = o.GetComponent <Unit1>();
+				if(u.isEnemy != isEnemy){
+					animator.SetBool(hash.standBool, true);
+					agent.speed = 0f;
+					u.hasBeenShot();
+					foundEnemy = true;
+					break;
+				}
+			}
+		}
+
+		if (!foundEnemy) {
+			animator.SetBool(hash.standBool, false);
+			agent.speed = speed;
+		}
+
 	}
 
 	
@@ -49,21 +81,29 @@ public class Unit1 : MonoBehaviour {
 		Instantiate (explosion, transform.position, transform.rotation);
 		Destroy (gameObject);
 	}
-	
-	void OnCollisionEnter(Collision collision) {
-		if (collision.gameObject.CompareTag ("Wall Enemy")) {
-			killObject();
-		}
-		if (collision.gameObject.CompareTag ("Wall Player")) {
-			killObject();
-		}
-		
-		//		if (collision.gameObject.CompareTag ("Ground")) {
-		//			if(Mathf.Abs(collision.relativeVelocity.y) > 10.0){
-		//				killObject();
-		//			}
-		//		}
-		
+
+	public void hasBeenShot() {
+		health--;
+		if(health <= 0)
+			Destroy (gameObject);
 	}
+
+
+	//	void OnCollisionEnter(Collision collision) {
+//		Debug.Log ("colission begin" + collision.gameObject.tag);
+//		if (collision.gameObject.CompareTag ("Wall Enemy")) {
+//			killObject();
+//		}
+//		if (collision.gameObject.CompareTag ("Wall Player")) {
+//			killObject();
+//		}
+//		
+//		//		if (collision.gameObject.CompareTag ("Ground")) {
+//		//			if(Mathf.Abs(collision.relativeVelocity.y) > 10.0){
+//		//				killObject();
+//		//			}
+//		//		}
+//		
+//	}
 
 }
