@@ -11,6 +11,7 @@ public class MainUI : MonoBehaviour {
 
     private GameController gc;
 	private int bh;
+	private Vector2 touchBeganPos;
 
 	void Start () {
 		GameObject g = GameObject.FindWithTag ("GameController");
@@ -49,13 +50,20 @@ public class MainUI : MonoBehaviour {
 
         for (int i=0; i<tapCount; i++) {
             Touch touch = Input.GetTouch(i);
+
             if(touch.phase == TouchPhase.Began){
 				bool hit = false;
                 hit |= check_button0(touch.position);
 				hit |= check_button1(touch.position);
 				if(!hit)
-					setTargetPosition(touch.position);
+					touchBeganPos = touch.position;
             }
+
+			if(touch.phase == TouchPhase.Ended){
+				Vector2 v = touch.position - touchBeganPos;
+				if(v.magnitude < 30.0f)
+					setTargetPosition(touch.position);
+			}
 
 //			if(touch.phase == TouchPhase.Moved){
 //				bool hit = false;

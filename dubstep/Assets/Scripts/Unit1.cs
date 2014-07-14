@@ -8,6 +8,7 @@ public class Unit1 : MonoBehaviour {
 	public float targetPositionZ;
 	public GameObject explosion;
 	public bool isEnemy;
+	public bool isDead = false;
 	//public Material enemyMaterial;
 	public Vector3 targetPosition;
 	//public Renderer mRenderer;
@@ -15,8 +16,9 @@ public class Unit1 : MonoBehaviour {
 	private NavMeshAgent agent;
 	private Animator animator;
 	private HashIDs hash;
-	public float health = 500f;
-
+	public int health = 500;
+	public int damage = 1;
+	public int deadTime = 60;
 
 
 	void Start() {
@@ -41,6 +43,13 @@ public class Unit1 : MonoBehaviour {
 	}
 
 	void Update() {
+		if(isDead){
+			deadTime--;
+			if(deadTime <= 0)
+				killObject();
+			return;
+		}
+
 		//if (targetPosition != transform.position) {
 		//	transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
 		//}
@@ -57,7 +66,7 @@ public class Unit1 : MonoBehaviour {
 				if(u.isEnemy != isEnemy){
 					animator.SetBool(hash.standBool, true);
 					agent.speed = 0f;
-					u.hasBeenShot();
+					u.hasBeenShot(damage);
 					foundEnemy = true;
 					break;
 				}
@@ -78,14 +87,22 @@ public class Unit1 : MonoBehaviour {
 //	}
 	
 	public void killObject() {
-		Instantiate (explosion, transform.position, transform.rotation);
+		//Instantiate (explosion, transform.position, transform.rotation);
 		Destroy (gameObject);
 	}
 
-	public void hasBeenShot() {
-		health--;
-		if(health <= 0)
-			Destroy (gameObject);
+	public void processDead() {
+		collider.enabled = false;
+		isDead = true;
+		agent.speed = 0;
+		animator.SetBool(hash.deadBool, true);
+	}
+
+	public void hasBeenShot(int d) {
+		health -= d;
+		if(health <= 0){
+			processDead();
+		}
 	}
 
 

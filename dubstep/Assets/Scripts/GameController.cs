@@ -133,7 +133,7 @@ public class GameController : MonoBehaviour {
 			GameObject o = hit.gameObject;
 			if(o.CompareTag("Unit1")){
 				Unit1 u = o.GetComponent <Unit1>();
-				u.killObject();
+				u.processDead();
 			}
 //			if (hit && hit.rigidbody)
 //				hit.rigidbody.AddExplosionForce(power, explosionPos, radius, 3.0F);
