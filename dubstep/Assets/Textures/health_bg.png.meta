@@ -1,8 +1,8 @@
 fileFormatVersion: 2
-guid: 0eb944247c8824f8eae9eb0ec40a8ccd
+guid: b47f2b4e79f8842fc9ad1c1baf6f3222
 TextureImporter:
   fileIDToRecycleName:
-    21300000: unit_test
+    21300000: health_bg
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -38,7 +38,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 10
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
