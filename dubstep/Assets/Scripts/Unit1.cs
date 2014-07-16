@@ -19,7 +19,7 @@ public class Unit1 : MonoBehaviour {
 	public int health = 500;
 	public int damage = 1;
 	public int deadTime = 60;
-
+	private string enemyBaseTag;
 
 	void Start() {
 		agent = GetComponent<NavMeshAgent>();
@@ -30,6 +30,9 @@ public class Unit1 : MonoBehaviour {
 			//mRenderer.material = enemyMaterial;
 			FaceCamera fc = mSprite.GetComponent<FaceCamera>();
 			fc.flip = true;
+			enemyBaseTag = "UnitBase1";
+		}else{
+			enemyBaseTag = "UnitBase0";
 		}
 	}
 
@@ -70,6 +73,15 @@ public class Unit1 : MonoBehaviour {
 					foundEnemy = true;
 					break;
 				}
+			}
+
+			if(o.CompareTag(enemyBaseTag)){
+				UnitBase u = o.GetComponent<UnitBase>();
+				animator.SetBool(hash.standBool, true);
+				agent.speed = 0f;
+				foundEnemy = true;
+				u.updateHealth(-1);
+				break;
 			}
 		}
 

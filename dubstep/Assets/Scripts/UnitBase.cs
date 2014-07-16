@@ -7,13 +7,20 @@ public class UnitBase : MonoBehaviour {
 	public int healthMax;
 	public SpriteRenderer spriteGreen;
 
-	// Use this for initialization
 	void Start () {
 	
 	}
 	
-	// Update is called once per frame
 	void Update () {
+
+	}
+
+	void updateHealthUI() {
 		spriteGreen.transform.localScale = new Vector3((float)health/(float)healthMax, 1f, 1f);
+	}
+
+	public void updateHealth(int v) {
+		health = Mathf.Clamp (health + v, 0, healthMax);
+		updateHealthUI ();
 	}
 }
